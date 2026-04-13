@@ -131,7 +131,7 @@ terraform destroy -var-file=env/prod.tfvars
 
 - Terraform >= 1.5.0
 - AWS CLI configure avec des credentials valides
-- Region par defaut : `eu-west-3` (Paris)
+- Region par defaut : `eu-west-1` (Paris)
 
 ## Points techniques demontres
 
