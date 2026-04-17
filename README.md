@@ -1,33 +1,33 @@
 # Terraform Multi-Environment Demo (AWS)
 
-Demonstration progressive de la gestion multi-environnement avec Terraform CE (Community Edition) sur AWS.
+Progressive demonstration of multi-environment management with Terraform CE (Community Edition) on AWS.
 
-Contenu de support pour la "matinale tech" live Twitch.
+Supporting content for the "Matinale Tech" Twitch live stream.
 
-> **Note** : ces demos et approches concernent Terraform CE. En mode CE, il faut construire et maintenir toute la "glue" CI/CD soi-meme (backend S3, locking DynamoDB, pipelines, gestion des credentials, policy as code, etc.). Pour un fonctionnement out-of-the-box, se diriger vers [HCP Terraform](https://www.hashicorp.com/products/terraform/pricing/) - le cout des licences couvre en grande partie les couts de build et run d'une stack CI/CD custom autour de TF CE.
+> **Note**: these demos and approaches concern Terraform CE. In CE mode, you have to build and maintain all the CI/CD "glue" yourself (S3 backend, DynamoDB locking, pipelines, credentials management, policy as code, etc.). For an out-of-the-box experience, head to [HCP Terraform](https://www.hashicorp.com/products/terraform/pricing/) - the cost of licenses largely covers the build and run costs of a custom CI/CD stack around TF CE.
 
-## Ressources deployees
+## Deployed resources
 
-Topologie reseau simple (gratuite, rapide a creer/detruire) :
+Simple network topology (free, quick to create/destroy):
 
-- **VPC** avec CIDR variable par environnement
-- **2 subnets** : public + private (calcules via `cidrsubnet()`)
-- **Tags** : Project, Environment, ManagedBy
+- **VPC** with a CIDR variable per environment
+- **2 subnets**: public + private (computed via `cidrsubnet()`)
+- **Tags**: Project, Environment, ManagedBy
 
 ## Structure
 
-Chaque level est autonome et executable independamment.
+Each level is self-contained and can be run independently.
 
 ```
-level-0-single-env/        # Un root module, un seul environnement
-level-1-workspaces/         # Un root module, des workspaces Terraform
-level-2-root-per-env/       # Un root module par env + modules partages
-level-3-specialization/     # Un root module + specialisation via -backend-config et -var-file
+level-0-single-env/         # One root module, a single environment
+level-1-workspaces/         # One root module, Terraform workspaces
+level-2-root-per-env/       # One root module per env + shared modules
+level-3-specialization/     # One root module + specialization via -backend-config and -var-file
 ```
 
 ## Level 0 - Single Environment
 
-Approche "monolithique" : un root module, un state, un environnement.
+"Monolithic" approach: one root module, one state, one environment.
 
 ```bash
 cd level-0-single-env
@@ -37,12 +37,12 @@ terraform apply
 terraform destroy
 ```
 
-- (+) simple, rapide a mettre en place
-- (-) impossible de gerer plusieurs environnements sans dupliquer le code
+- (+) simple, quick to set up
+- (-) impossible to manage multiple environments without duplicating code
 
 ## Level 1 - Workspaces
 
-Un root module avec `terraform.workspace` pour differencier les environnements. Le state est automatiquement separe par workspace.
+A single root module using `terraform.workspace` to differentiate environments. The state is automatically separated per workspace.
 
 ```bash
 cd level-1-workspaces
@@ -56,20 +56,20 @@ terraform workspace new prod
 terraform plan
 terraform apply
 
-# Nettoyage
+# Cleanup
 terraform workspace select dev && terraform destroy
 terraform workspace select prod && terraform destroy
 ```
 
-- (+) state separe par workspace automatiquement, zero duplication de code
-- (-) config env codee en dur dans les locals, risque d'apply sur le mauvais workspace, pas d'isolation reelle
-- Approche deconseillee par la [doc officielle](https://developer.hashicorp.com/terraform/cli/workspaces#when-not-to-use-multiple-workspaces) pour la gestion multi-env
+- (+) state automatically separated per workspace, zero code duplication
+- (-) env config hardcoded in locals, risk of applying on the wrong workspace, no real isolation
+- Approach discouraged by the [official docs](https://developer.hashicorp.com/terraform/cli/workspaces#when-not-to-use-multiple-workspaces) for multi-env management
 
-## Level 2 - Root Module par Environnement
+## Level 2 - Root Module per Environment
 
-Structure recommandee par la [doc officielle Terraform](https://developer.hashicorp.com/terraform/language/style) pour les utilisateurs hors HCP Terraform/TFE.
+Structure recommended by the [official Terraform docs](https://developer.hashicorp.com/terraform/language/style) for users outside HCP Terraform/TFE.
 
-Un repertoire par env, chacun avec son propre state. Les modules sont partages.
+One directory per env, each with its own state. Modules are shared.
 
 ```bash
 # Dev
@@ -84,20 +84,20 @@ terraform init
 terraform plan
 terraform apply
 
-# Nettoyage
+# Cleanup
 cd ../dev && terraform destroy
 cd ../prod && terraform destroy
 ```
 
-- (+) isolation complete des states, pas de risque d'erreur d'env, modules reutilisables
-- (-) duplication du code racine (providers, outputs) entre les envs
+- (+) full state isolation, no risk of env mistake, reusable modules
+- (-) duplication of root code (providers, outputs) between envs
 
-## Level 3 - Root Module + Specialisation
+## Level 3 - Root Module + Specialization
 
-Un seul root module. L'environnement cible est selectionne a l'execution via :
+A single root module. The target environment is selected at execution time via:
 
-- `terraform init -backend-config=env/<env>.backend.hcl` pour le state
-- `terraform plan/apply -var-file=env/<env>.tfvars` pour la configuration
+- `terraform init -backend-config=env/<env>.backend.hcl` for the state
+- `terraform plan/apply -var-file=env/<env>.tfvars` for the configuration
 
 ```bash
 cd level-3-specialization
@@ -107,37 +107,37 @@ terraform init -backend-config=env/dev.backend.hcl
 terraform plan -var-file=env/dev.tfvars
 terraform apply -var-file=env/dev.tfvars
 
-# Prod (re-init necessaire pour changer de backend)
+# Prod (re-init required to change backend)
 terraform init -reconfigure -backend-config=env/prod.backend.hcl
 terraform plan -var-file=env/prod.tfvars
 terraform apply -var-file=env/prod.tfvars
 
-# Nettoyage
+# Cleanup
 terraform init -reconfigure -backend-config=env/dev.backend.hcl
 terraform destroy -var-file=env/dev.tfvars
 terraform init -reconfigure -backend-config=env/prod.backend.hcl
 terraform destroy -var-file=env/prod.tfvars
 ```
 
-- (+) zero duplication de code, ajout d'un env = 2 fichiers (`.tfvars` + `.backend.hcl`)
-- (-) necessite un `init -reconfigure` pour changer d'env en local (transparent en CI/CD)
+- (+) zero code duplication, adding an env = 2 files (`.tfvars` + `.backend.hcl`)
+- (-) requires an `init -reconfigure` to switch envs locally (transparent in CI/CD)
 
-## Pour aller plus loin
+## Going further
 
-- **Terragrunt** : wrapper autour de Terraform qui pousse le DRY encore plus loin (gestion backend, inputs, dependencies entre modules). Attention : mode wrapper uniquement, pas de retour arriere simple une fois implemente - choix structurant pour l'equipe.
-- **Terraform Stacks** : feature recente HCP Terraform pour orchestrer plusieurs root modules comme un ensemble (deployments, deferred changes).
+- **Terragrunt**: wrapper around Terraform that pushes DRY even further (backend management, inputs, dependencies between modules). Caveat: wrapper-only mode, no easy way back once adopted - a structuring choice for the team.
+- **Terraform Stacks**: recent HCP Terraform feature to orchestrate multiple root modules as a unit (deployments, deferred changes).
 
-## Pre-requis
+## Prerequisites
 
 - Terraform >= 1.5.0
-- AWS CLI configure avec des credentials valides
-- Region par defaut : `eu-west-1` (Paris)
+- AWS CLI configured with valid credentials
+- Default region: `eu-west-1` (Paris)
 
-## Points techniques demontres
+## Technical points demonstrated
 
-- `cidrsubnet()` pour le calcul dynamique de CIDR
-- Data source `aws_availability_zones` pour la selection dynamique d'AZ
-- `merge()` pour la composition de tags
-- `lookup()` avec fallback (level 1)
-- Separation backend / variables d'env (level 3)
-- Provider-defined functions (v1.8+) : `provider::aws::arn_parse()`, `provider::aws::arn_build()`
+- `cidrsubnet()` for dynamic CIDR computation
+- `aws_availability_zones` data source for dynamic AZ selection
+- `merge()` for tag composition
+- `lookup()` with fallback (level 1)
+- Backend / env variables separation (level 3)
+- Provider-defined functions (v1.8+): `provider::aws::arn_parse()`, `provider::aws::arn_build()`
