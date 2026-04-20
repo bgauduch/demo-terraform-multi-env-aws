@@ -1,4 +1,4 @@
-name: CI
+name: Terraform quality
 
 on:
   push:
@@ -7,22 +7,18 @@ on:
     branches: [main]
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  group: terraform-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  pull-requests: read
-
-# Note: the `if:` expression below is duplicated on every non-PR-specific job because
-# the `env` context is not available in `jobs.<id>.if`. It skips the pull_request run
-# when the PR's branch lives in this same repo (push already covered those jobs);
-# fork PRs still run everything since forks don't trigger push on upstream.
 
 jobs:
   setup:
     name: Load levels matrix
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    # Always run on push; on pull_request, run only for fork PRs
+    # (same-repo PRs are already covered by the push event).
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     outputs:
       levels: ${{ steps.load.outputs.levels }}
@@ -31,28 +27,9 @@ jobs:
       - id: load
         run: echo "levels=$(jq -c . .github/levels.json)" >> "$GITHUB_OUTPUT"
 
-  commitlint:
-    name: Commit message lint
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@b948419dd99f3fd78a6548d48f94e3df7f6bf3ed # v6.2.1
-
-  pr-title:
-    name: PR title lint
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: amannn/action-semantic-pull-request@48f256284bd46cdaab1048c3721360e808335d50 # v6.1.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   fmt:
     name: terraform fmt
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -64,7 +41,6 @@ jobs:
   quality:
     name: validate + lint + scan (${{ matrix.cell.name }})
     needs: setup
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
