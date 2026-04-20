@@ -1,0 +1,5 @@
+udpate readme to clearly indicate that : this is intendend for demo only, not for production usage (a remote backend should be use, configuration is kept minimal to keep emphasis on mutli-env demo)
+
+---
+
+/init

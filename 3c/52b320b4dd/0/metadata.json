@@ -1,0 +1,67 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "3c52b320b4dd",
+  "session_id": "39c7bed8-5c87-422a-b649-5f7c477b47ad",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T09:45:47.110302Z",
+  "branch": "chore/repo-conventions-and-agent-config",
+  "checkpoints_count": 2,
+  "files_touched": [
+    "README.md"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7",
+  "turn_id": "eefa214b0d51",
+  "token_usage": {
+    "input_tokens": 703,
+    "cache_creation_tokens": 36476,
+    "cache_read_tokens": 209423,
+    "output_tokens": 2782,
+    "api_call_count": 8
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T09:45:47.10811Z",
+    "agent_lines": 13,
+    "agent_removed": 5,
+    "human_added": 0,
+    "human_modified": 1,
+    "human_removed": 0,
+    "total_committed": 14,
+    "total_lines_changed": 19,
+    "agent_percentage": 94.73684210526315,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 110,
+      "user_lines_removed": 1,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        ".claude/agents/entire-search.md": 25,
+        ".claude/settings.json": 84,
+        "level-3-specialization/providers.tf": 1
+      },
+      "user_removed_per_file": {
+        "level-3-specialization/providers.tf": 1
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 1,
+      "user_lines_removed": 1,
+      "agent_lines_added": 119,
+      "agent_lines_removed": 1,
+      "user_added_per_file": {
+        "README.md": 1
+      },
+      "user_removed_per_file": {
+        "README.md": 1
+      }
+    }
+  ]
+}
