@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/bgauduch/demo-terraform-multi-env-aws/compare/v1.0.0...v1.0.1) (2026-04-20)
+
+
+### Documentation
+
+* **readme:** fix CI badge after workflow split ([#4](https://github.com/bgauduch/demo-terraform-multi-env-aws/issues/4)) ([4f5fc59](https://github.com/bgauduch/demo-terraform-multi-env-aws/commit/4f5fc599d2b66560756e7775fd1912954dcaabc0))
+
 ## 1.0.0 (2026-04-20)
 
 
