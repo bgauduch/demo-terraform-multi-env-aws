@@ -1,0 +1,5 @@
+entire settings shoudl be commited
+
+---
+
+entire is a tool, and it's config in ".entire" should be commited
