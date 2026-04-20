@@ -1,0 +1,9 @@
+now plan for a silple yet complete CI pipeline accoring to the repository workflow : full quality gate (test, fmt, validate, tflint, any other relevant tools) + plan + release
+
+---
+
+upda the plan : trigger ci.yml on every branch commit, use existing action insted of custom code, pin actions version following best practices.
+
+---
+
+let's go to a new feat branch, and start implementation. you will have think about testing all action before merging, temporary changes are ok for that.
