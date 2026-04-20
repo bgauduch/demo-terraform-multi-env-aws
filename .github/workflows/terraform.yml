@@ -1,0 +1,79 @@
+name: Terraform quality
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    name: Load levels matrix
+    # Always run on push; on pull_request, run only for fork PRs
+    # (same-repo PRs are already covered by the push event).
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    outputs:
+      levels: ${{ steps.load.outputs.levels }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: load
+        run: echo "levels=$(jq -c . .github/levels.json)" >> "$GITHUB_OUTPUT"
+
+  fmt:
+    name: terraform fmt
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: ./.github/actions/tf-setup
+        with:
+          install-tflint: 'false'
+      - run: terraform fmt -check -recursive -diff
+
+  quality:
+    name: validate + lint + scan (${{ matrix.cell.name }})
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cell: ${{ fromJSON(needs.setup.outputs.levels) }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: ./.github/actions/tf-setup
+
+      - name: terraform init (no backend)
+        working-directory: ${{ matrix.cell.dir }}
+        run: terraform init -backend=false -input=false
+
+      - name: terraform validate
+        working-directory: ${{ matrix.cell.dir }}
+        run: terraform validate -no-color
+
+      - name: tflint init
+        working-directory: ${{ matrix.cell.dir }}
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: tflint
+        working-directory: ${{ matrix.cell.dir }}
+        run: tflint --recursive --format compact
+
+      - name: trivy config scan
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
+        with:
+          scan-type: config
+          scan-ref: ${{ matrix.cell.dir }}
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
