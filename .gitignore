@@ -38,3 +38,26 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# AI coding agents - local state, settings, and caches
+.claude/
+.cursor/
+.aider*
+.entire/
+.continue/
+.codeium/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE local config
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
