@@ -1,0 +1,25 @@
+name: Terraform toolchain
+description: Install Terraform (version from .terraform-version) and TFLint, pinned via SHA.
+
+inputs:
+  install-tflint:
+    description: Whether to install TFLint (set to 'false' to skip).
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - id: tfver
+      shell: bash
+      run: echo "version=$(tr -d '[:space:]' < "$GITHUB_WORKSPACE/.terraform-version")" >> "$GITHUB_OUTPUT"
+
+    - uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4.0.0
+      with:
+        terraform_version: ${{ steps.tfver.outputs.version }}
+        terraform_wrapper: false
+
+    - if: inputs.install-tflint == 'true'
+      uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6.2.2
+      with:
+        tflint_version: latest

@@ -1,5 +1,8 @@
 # Terraform Multi-Environment Demo (AWS)
 
+[![CI](https://github.com/bgauduch/demo-terraform-multi-env-aws/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bgauduch/demo-terraform-multi-env-aws/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/bgauduch/demo-terraform-multi-env-aws?sort=semver)](https://github.com/bgauduch/demo-terraform-multi-env-aws/releases/latest)
+
 Progressive demonstration of multi-environment management with Terraform CE (Community Edition) on AWS.
 
 Supporting content for the "Matinale Tech" Twitch live stream.
