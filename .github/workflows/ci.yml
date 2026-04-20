@@ -14,9 +14,15 @@ permissions:
   contents: read
   pull-requests: read
 
+# Note: the `if:` expression below is duplicated on every non-PR-specific job because
+# the `env` context is not available in `jobs.<id>.if`. It skips the pull_request run
+# when the PR's branch lives in this same repo (push already covered those jobs);
+# fork PRs still run everything since forks don't trigger push on upstream.
+
 jobs:
   setup:
     name: Load levels matrix
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     outputs:
       levels: ${{ steps.load.outputs.levels }}
@@ -27,6 +33,7 @@ jobs:
 
   commitlint:
     name: Commit message lint
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -45,6 +52,7 @@ jobs:
 
   fmt:
     name: terraform fmt
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -56,6 +64,7 @@ jobs:
   quality:
     name: validate + lint + scan (${{ matrix.cell.name }})
     needs: setup
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
