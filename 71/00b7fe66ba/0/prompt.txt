@@ -1,0 +1,13 @@
+validate that ci actions (not commit message lint) will also run on main after PR is merged (to validate that changes are correctly integrated on main)
+
+---
+
+validate that ci actions (not commit message lint) will also run on main after PR is merged (to validate that changes are correctly integrated on main, regardless of the merge method)
+
+---
+
+I like that, best SOC. how will it behave for terraform.yml on branches push + pullm_Request ? duplication should be avoided.
+
+---
+
+ok go update

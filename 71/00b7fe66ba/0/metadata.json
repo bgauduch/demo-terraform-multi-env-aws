@@ -1,0 +1,51 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "7100b7fe66ba",
+  "session_id": "61adf03c-7c4c-42e0-976f-82ed4d55c281",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T12:22:27.223557Z",
+  "branch": "feat/ci-pipeline",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/pr-title.yml",
+    ".github/workflows/commitlint.yml",
+    ".github/workflows/terraform.yml"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7",
+  "turn_id": "e715e9c751bd",
+  "checkpoint_transcript_start": 439,
+  "transcript_lines_at_start": 439,
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_tokens": 10688,
+    "cache_read_tokens": 1215687,
+    "output_tokens": 9499,
+    "api_call_count": 11
+  },
+  "session_metrics": {
+    "turn_count": 11
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T12:22:27.214583Z",
+    "agent_lines": 123,
+    "agent_removed": 103,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 123,
+    "total_lines_changed": 226,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "7100b7fe66ba",
+  "strategy": "manual-commit",
+  "branch": "feat/ci-pipeline",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/commitlint.yml",
+    ".github/workflows/pr-title.yml",
+    ".github/workflows/terraform.yml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/71/00b7fe66ba/0/metadata.json",
+      "transcript": "/71/00b7fe66ba/0/full.jsonl",
+      "content_hash": "/71/00b7fe66ba/0/content_hash.txt",
+      "prompt": "/71/00b7fe66ba/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 26,
+    "cache_creation_tokens": 10688,
+    "cache_read_tokens": 1215687,
+    "output_tokens": 9499,
+    "api_call_count": 11
+  }
+}
