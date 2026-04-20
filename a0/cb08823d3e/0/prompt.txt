@@ -1,0 +1,9 @@
+a
+
+---
+
+go foa a, wouldn't it be cleaner to keep region in submodule an dadd missing binding in root module ?
+
+---
+
+ii, do not change tflint rules
