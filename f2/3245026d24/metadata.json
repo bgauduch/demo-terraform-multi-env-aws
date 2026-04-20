@@ -3,7 +3,7 @@
   "checkpoint_id": "f23245026d24",
   "strategy": "manual-commit",
   "branch": "chore/repo-conventions-and-agent-config",
-  "checkpoints_count": 1,
+  "checkpoints_count": 2,
   "files_touched": [
     "level-3-specialization/providers.tf"
   ],
@@ -13,13 +13,19 @@
       "transcript": "/f2/3245026d24/0/full.jsonl",
       "content_hash": "/f2/3245026d24/0/content_hash.txt",
       "prompt": "/f2/3245026d24/0/prompt.txt"
+    },
+    {
+      "metadata": "/f2/3245026d24/1/metadata.json",
+      "transcript": "/f2/3245026d24/1/full.jsonl",
+      "content_hash": "/f2/3245026d24/1/content_hash.txt",
+      "prompt": "/f2/3245026d24/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 703,
-    "cache_creation_tokens": 36476,
-    "cache_read_tokens": 209423,
-    "output_tokens": 2782,
-    "api_call_count": 8
+    "input_tokens": 753,
+    "cache_creation_tokens": 58047,
+    "cache_read_tokens": 847367,
+    "output_tokens": 9589,
+    "api_call_count": 28
   }
 }

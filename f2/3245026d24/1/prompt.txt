@@ -1,0 +1,17 @@
+make the claude setup work for any agent (linking claude.md to agent.md, maybe more operation to do ?)
+
+---
+
+update gitignore for best practices on this repo
+
+---
+
+regroup and commits changes
+
+---
+
+repository standard to add : conventionnal commits, semver, semantic release. update agent config.
+
+---
+
+ok, maintenant regroupe les fichier pour commit + branch + PR
