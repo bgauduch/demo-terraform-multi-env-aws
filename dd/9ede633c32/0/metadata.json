@@ -1,0 +1,50 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "dd9ede633c32",
+  "session_id": "61adf03c-7c4c-42e0-976f-82ed4d55c281",
+  "strategy": "manual-commit",
+  "created_at": "2026-04-20T11:05:54.883158Z",
+  "branch": "feat/ci-pipeline",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/workflows/release.yml",
+    ".github/release-please-config.json",
+    ".github/.release-please-manifest.json"
+  ],
+  "agent": "Claude Code",
+  "model": "claude-opus-4-7",
+  "turn_id": "4e7a18cea8c9",
+  "checkpoint_transcript_start": 264,
+  "transcript_lines_at_start": 264,
+  "token_usage": {
+    "input_tokens": 10,
+    "cache_creation_tokens": 3637,
+    "cache_read_tokens": 396238,
+    "output_tokens": 2947,
+    "api_call_count": 5
+  },
+  "session_metrics": {
+    "turn_count": 6
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-04-20T11:05:54.877094Z",
+    "agent_lines": 49,
+    "agent_removed": 0,
+    "human_added": 0,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 49,
+    "total_lines_changed": 49,
+    "agent_percentage": 100,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}

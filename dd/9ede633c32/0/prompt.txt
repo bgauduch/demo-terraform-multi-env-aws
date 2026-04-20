@@ -1,0 +1,1 @@
+nha, no cred for live deploy, forget plan.md. let's keep it dead simple and only focus onthe quality harness and auto release

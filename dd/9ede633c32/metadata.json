@@ -1,0 +1,27 @@
+{
+  "cli_version": "0.5.5",
+  "checkpoint_id": "dd9ede633c32",
+  "strategy": "manual-commit",
+  "branch": "feat/ci-pipeline",
+  "checkpoints_count": 0,
+  "files_touched": [
+    ".github/.release-please-manifest.json",
+    ".github/release-please-config.json",
+    ".github/workflows/release.yml"
+  ],
+  "sessions": [
+    {
+      "metadata": "/dd/9ede633c32/0/metadata.json",
+      "transcript": "/dd/9ede633c32/0/full.jsonl",
+      "content_hash": "/dd/9ede633c32/0/content_hash.txt",
+      "prompt": "/dd/9ede633c32/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 10,
+    "cache_creation_tokens": 3637,
+    "cache_read_tokens": 396238,
+    "output_tokens": 2947,
+    "api_call_count": 5
+  }
+}
