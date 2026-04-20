@@ -4,7 +4,22 @@ Progressive demonstration of multi-environment management with Terraform CE (Com
 
 Supporting content for the "Matinale Tech" Twitch live stream.
 
+> **⚠️ Demo only - not for production use**
+>
+> This repository is intended as a pedagogical demo to illustrate multi-environment patterns. Configuration is deliberately kept minimal to keep the focus on multi-env structure.
+>
+> For production use, you should at minimum:
+> - use a **remote backend** (S3, or HCP Terraform) with locking instead of the local state used here
+> - pin provider and module versions strictly, and manage credentials via a proper secrets mechanism
+> - wrap everything in a CI/CD pipeline with policy-as-code, plan reviews, and drift detection
+
 > **Note**: these demos and approaches concern Terraform CE. In CE mode, you have to build and maintain all the CI/CD "glue" yourself (S3 backend, DynamoDB locking, pipelines, credentials management, policy as code, etc.). For an out-of-the-box experience, head to [HCP Terraform](https://www.hashicorp.com/products/terraform/pricing/) - the cost of licenses largely covers the build and run costs of a custom CI/CD stack around TF CE.
+
+## Prerequisites
+
+- Terraform >= 1.5.0
+- AWS CLI configured with valid credentials
+- Default region: `eu-west-1` (Paris)
 
 ## Deployed resources
 
@@ -126,12 +141,6 @@ terraform destroy -var-file=env/prod.tfvars
 
 - **Terragrunt**: wrapper around Terraform that pushes DRY even further (backend management, inputs, dependencies between modules). Caveat: wrapper-only mode, no easy way back once adopted - a structuring choice for the team.
 - **Terraform Stacks**: recent HCP Terraform feature to orchestrate multiple root modules as a unit (deployments, deferred changes).
-
-## Prerequisites
-
-- Terraform >= 1.5.0
-- AWS CLI configured with valid credentials
-- Default region: `eu-west-1` (Paris)
 
 ## Technical points demonstrated
 
