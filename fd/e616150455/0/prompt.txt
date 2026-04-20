@@ -1,0 +1,5 @@
+why not using a single const / var to store the version ? how will you handle code / version duplication in next actions ?
+
+---
+
+why not using a single const / var to store the version ? how will you handle code / version / matrix definition duplication in next actions ?
