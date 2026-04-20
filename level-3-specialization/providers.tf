@@ -8,7 +8,7 @@ terraform {
     }
   }
 
-  # Path is set dynamically via: terraform init -backend-config=env/<env>.backend.hcl
+  # Partial config - path is set dynamically via: terraform init -backend-config=env/<env>.backend.hcl
   backend "local" {}
 }
 
