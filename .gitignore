@@ -43,7 +43,6 @@ terraform.rc
 .claude/
 .cursor/
 .aider*
-.entire/
 .continue/
 .codeium/
 
