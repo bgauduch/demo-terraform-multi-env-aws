@@ -1,0 +1,5 @@
+go
+
+---
+
+let's avoid duplicated actions run when pushing on opened PR. it should always run on push , but not triggered twice if PR is opened
