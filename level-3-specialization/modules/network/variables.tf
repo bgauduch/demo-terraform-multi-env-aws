@@ -12,8 +12,3 @@ variable "project" {
   description = "Project name used for tagging"
   type        = string
 }
-
-variable "region" {
-  description = "AWS region"
-  type        = string
-}
